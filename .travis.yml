@@ -13,3 +13,5 @@ deploy:
   skip_cleanup: true
   script:
   - curl -T helloworld 0.0.$TRAVIS_BUILD_NUMBER-Linux.deb "https://bintray.com/c-a1r/otus/new_package/$TRAVIS_BUILD_NUMBER/helloworld 0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  on:
+      branch: main

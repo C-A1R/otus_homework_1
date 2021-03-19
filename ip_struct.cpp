@@ -22,7 +22,7 @@ IpStruct::IpStruct(const std::vector<std::string> &v)
 
 int IpStruct::getByte(int index) const
 {
-    if (index < 0 || index >= bytes.size())
+    if (index < 0 || index >= ipVersion)
     {
         return -1;
     }

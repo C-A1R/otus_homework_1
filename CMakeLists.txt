@@ -13,7 +13,7 @@ find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 configure_file(version.h.in version.h)
 
-add_executable(ipfilter_cli ip_filter.cpp)
+add_executable(ipfilter_cli ip_filter.cpp ip_struct.cpp)
 add_library(ipfilter lib.cpp)
 add_executable(test_version test_version.cpp)
 

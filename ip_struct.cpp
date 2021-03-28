@@ -9,14 +9,16 @@ IpStruct::IpStruct(const std::vector<std::string> &v)
         return;
     }
 
+    bytes.reserve(ipVersion);
     for (const auto &byte_str : v)
     {
-        if (std::stoi(byte_str) < 0 || std::stoi(byte_str) > 255)
+        int byte = std::stoi(byte_str);
+        if (byte < 0 || byte > 255)
         {
             bytes.clear();
             break;
         }
-        bytes.push_back(std::stoi(byte_str));
+        bytes.push_back(byte);
     }
 }
 

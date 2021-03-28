@@ -9,7 +9,7 @@ class IpStruct
     std::vector<int> bytes;
 
 public:
-    static constexpr int ipVersion = 4;
+    static const int ipVersion = 4;
 
     explicit IpStruct(const std::vector<std::string> &v);
     int getByte(int index) const;

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
@@ -32,9 +33,22 @@ std::vector<std::string> split(const std::string &str, char d)
     return r;
 }
 
+template<typename Iterator>
+void ip_print_if(Iterator begin, Iterator end, std::function<bool(const IpStruct&)> func)
+{
+    for (auto iter = begin; iter != end; ++iter)
+    {
+        auto ip = static_cast<IpStruct>(*iter);
+        if (func(ip))
+        {
+            ip.print();
+        }
+    }
+}
+
+
 int main()
 {
-    std::cout << "### ip_filter start" << std::endl;
     try
     {
         std::vector<IpStruct> ip_pool;
@@ -78,51 +92,33 @@ int main()
             return false;
         });
 
-        std::vector<IpStruct> ip_pool_1;
-        std::vector<IpStruct> ip_pool_46_70;
-        std::vector<IpStruct> ip_pool_46;
+        // print sorted
         for (const auto &ip : ip_pool)
         {
-            // filter by first byte
-            if (ip.getByte(0) == 1)
-            {
-                ip_pool_1.push_back(ip);
-            }
-            // filter by first and second bytes
-            if (ip.getByte(0) == 46
-                && ip.getByte(1) == 70)
-            {
-                ip_pool_46_70.push_back(ip);
-            }
-            // filter by any byte
-            if (ip.getByte(0) == 46
-                || ip.getByte(1) == 46
-                || ip.getByte(2) == 46
-                || ip.getByte(3) == 46)
-            {
-                ip_pool_46.push_back(ip);
-            }
+            ip.print();
         }
 
-        // output
+        // filter by first byte
+        ip_print_if(ip_pool.begin(), ip_pool.end(), [](const IpStruct &ip) -> bool
         {
-            for (const auto &ip : ip_pool)
-            {
-                ip.print();
-            }
-            for (const auto &ip : ip_pool_1)
-            {
-                ip.print();
-            }
-            for (const auto &ip : ip_pool_46_70)
-            {
-                ip.print();
-            }
-            for (const auto &ip : ip_pool_46)
-            {
-                ip.print();
-            }
-        }
+            return ip.getByte(0) == 1;
+        });
+
+
+        // filter by first and second bytes
+        ip_print_if(ip_pool.begin(), ip_pool.end(), [](const IpStruct &ip) -> bool
+        {
+            return ip.getByte(0) == 46 && ip.getByte(1) == 70;
+        });
+
+        // filter by any byte
+        ip_print_if(ip_pool.begin(), ip_pool.end(), [](const IpStruct &ip) -> bool
+        {
+            return ip.getByte(0) == 46
+                || ip.getByte(1) == 46
+                || ip.getByte(2) == 46
+                || ip.getByte(3) == 46;
+        });
     }
     catch(const std::exception &e)
     {
